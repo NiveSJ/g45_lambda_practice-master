@@ -1,6 +1,7 @@
 package se.lexicon.data;
 
 
+import se.lexicon.data.impl.DataStorageImpl;
 import se.lexicon.model.Person;
 
 import java.util.Comparator;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 
 public interface DataStorage {
 
-    DataStorage INSTANCE = DataStorageImpl.getInstance();
+   public DataStorage INSTANCE = DataStorageImpl.getInstance();
 
     List<Person> findMany(Predicate<Person> filter);
     Person findOne(Predicate<Person> filter);
