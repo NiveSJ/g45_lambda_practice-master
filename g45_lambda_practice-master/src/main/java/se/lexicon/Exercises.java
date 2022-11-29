@@ -168,8 +168,8 @@ public class Exercises {
      */
     public static void exercise12(String message) {
         System.out.println(message);
-        //Write your code here
-        // TODO: exercise12
+        System.out.println( storage.findAndSort((person -> person.getBirthDate().isBefore(LocalDate.parse("1950-01-01")) ),
+                Comparator.comparing(Person::getBirthDate,Comparator.reverseOrder())     ));
 
         System.out.println("----------------------");
     }
