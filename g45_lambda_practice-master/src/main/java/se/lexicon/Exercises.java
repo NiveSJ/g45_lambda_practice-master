@@ -25,7 +25,7 @@ public class Exercises {
         System.out.println(message);
 
         System.out.println("\n" + storage.findMany
-                (person -> person.getFirstName().equalsIgnoreCase("Erik")) + "\n");
+                (person -> person.getFirstName().equalsIgnoreCase("Erik")));
 
         System.out.println("----------------------");
     }

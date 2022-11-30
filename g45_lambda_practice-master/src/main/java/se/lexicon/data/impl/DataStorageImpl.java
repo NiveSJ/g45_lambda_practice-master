@@ -50,12 +50,11 @@ public class DataStorageImpl implements DataStorage {
 
     @Override
     public Person findOne(Predicate<Person> filter) {
-        for (Person person : personList)
-            if (filter.test(person))
-                return person;
 
-        return null;
+        Optional<Person> foundPerson = personList.stream().filter(filter).findFirst();
 
+        return foundPerson.orElse(null);
+        
     }
 
     @Override
@@ -85,7 +84,7 @@ public class DataStorageImpl implements DataStorage {
             if (filter.test(person)) consumer.accept(person); */
 
 
-        personList.stream().filter(filter).forEach( consumer);
+        personList.stream().filter(filter).forEach(consumer);
 
     }
 
@@ -99,7 +98,7 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
 
-       return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
+        return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
 
 
     }
