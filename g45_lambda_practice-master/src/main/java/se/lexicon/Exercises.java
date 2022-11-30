@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
+import static java.lang.String.copyValueOf;
 import static java.lang.String.valueOf;
 
 public class Exercises {
@@ -46,8 +47,7 @@ public class Exercises {
     public static void exercise3(String message) {
         System.out.println(message);
         System.out.println(storage.findMany(person ->
-                person.getBirthDate().isAfter(LocalDate.parse("2000-01-01")) &&
-                        person.getBirthDate().equals(LocalDate.parse("2000-01-01"))));
+                person.getBirthDate().isAfter(LocalDate.parse("1999-12-31"))));
 
 
         System.out.println("----------------------");
@@ -72,11 +72,10 @@ public class Exercises {
 
 
         System.out.println(storage.findOneAndMapToString((person -> person.getId() == 456),
-                (person -> person.getFirstName().concat(" ").
-                        concat(person.getLastName()).concat(" ")
-                        .concat("born").
-                        concat(person.getBirthDate().toString()))));
-
+                (person -> person.getFirstName().concat(" ")
+                        .concat(person.getLastName()).concat(" ")
+                        .concat("born").concat(" ")
+                        .concat(person.getBirthDate().toString()))));
 
         System.out.println("----------------------");
     }
@@ -88,9 +87,9 @@ public class Exercises {
     public static void exercise6(String message) {
         System.out.println(message);
 
-
         System.out.println(storage.findManyAndMapEachToString((person ->
-                        person.getGender().equals(Gender.MALE) && person.getFirstName().startsWith("E")),
+                        person.getGender().equals(Gender.MALE) &&
+                                person.getFirstName().startsWith("E")),
                 person -> person.toString()));
 
         System.out.println("----------------------");
@@ -104,13 +103,12 @@ public class Exercises {
         System.out.println(message);
 
         Predicate<Person> agecalc = (person) -> {
-            boolean b = Period.between(person.getBirthDate(), LocalDate.now()).getYears() > 10;
-            if (b)
-                return true;
-            return false;
+            return Period.between(person.getBirthDate(), LocalDate.now()).getYears() < 10;
         };
 
-        storage.findManyAndMapEachToString(agecalc, Person::toString);
+        System.out.println(storage.findManyAndMapEachToString(agecalc, person -> person.getFirstName().concat(" ").
+                concat(person.getLastName()).concat(" ").concat(Integer.toString(Period.between(person.getBirthDate(),
+                        LocalDate.now()).getYears())).concat(" ").concat("years").concat("\n")));
 
 
         System.out.println("----------------------");
@@ -121,8 +119,10 @@ public class Exercises {
      */
     public static void exercise8(String message) {
         System.out.println(message);
+
         storage.findAndDo((person -> person.getFirstName().equalsIgnoreCase("Ulf")),
-                person -> System.out.println(person));
+                System.out::println);
+
         System.out.println("----------------------");
     }
 
@@ -131,6 +131,7 @@ public class Exercises {
      */
     public static void exercise9(String message) {
         System.out.println(message);
+
         storage.findAndDo((person -> person.getLastName().contains(person.getFirstName())),
                 person -> System.out.println(person));
 
@@ -142,7 +143,6 @@ public class Exercises {
      */
     public static void exercise10(String message) {
         System.out.println(message);
-
 
         Predicate<Person> predicate = person1 -> person1.getFirstName().equalsIgnoreCase(
                 new StringBuilder(person1.getFirstName()).reverse().toString());
@@ -160,7 +160,8 @@ public class Exercises {
     public static void exercise11(String message) {
         System.out.println(message);
 
-        System.out.println(storage.findAndSort(person -> person.getFirstName().startsWith("A"), Comparator.comparing(Person::getBirthDate)));
+        System.out.println(storage.findAndSort(person ->
+                person.getFirstName().startsWith("A"), Comparator.comparing(Person::getBirthDate)));
 
         System.out.println("----------------------");
     }
@@ -181,13 +182,12 @@ public class Exercises {
      */
     public static void exercise13(String message) {
         System.out.println(message);
-        storage.findAndSort((person ->
-                {
-                    boolean b = (person.getLastName().compareToIgnoreCase(person.getLastName())) valueOf(person.getBirthDate()));
 
-                    return b;
-                },
-                Comparator.comparing(Person::getLastName));
+        System.out.println(storage.findAndSort(Comparator.comparing(Person::getBirthDate).
+                thenComparing(Person::getLastName).
+                thenComparing(Person::getFirstName)));
+
+
         System.out.println("----------------------");
     }
 }

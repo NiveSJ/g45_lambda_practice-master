@@ -32,7 +32,7 @@ public class CSVReader {
         List<String> names = null;
         try {
             Path filePath = Paths.get(fileName);
-            System.out.println(filePath.toAbsolutePath());
+          //  System.out.println(filePath.toAbsolutePath());
             reader = Files.newBufferedReader(filePath);
             names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))
@@ -59,7 +59,7 @@ public class CSVReader {
                 "\\g45_lambda_practice-master\\g45_lambda_practice-master" +
                 "\\src\\main\\java\\se\\lexicon\\data\\firstname_female.txt";
         Path filePath = Paths.get(fileName);
-        System.out.println(filePath.toAbsolutePath());
+        //System.out.println(filePath.toAbsolutePath());
 
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
 
@@ -86,7 +86,7 @@ public class CSVReader {
             Path filePath = Paths.get(fileName);
             reader = Files.newBufferedReader(filePath);
 
-            System.out.println(filePath.toAbsolutePath());
+         //   System.out.println(filePath.toAbsolutePath());
 
             names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))

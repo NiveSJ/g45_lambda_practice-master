@@ -74,6 +74,7 @@ public class DataStorageImpl implements DataStorage {
     public List<String> findManyAndMapEachToString(Predicate<Person> filter,
                                                    Function<Person, String> personToString) {
 
+
         return personList.stream().filter(filter).map(personToString).collect(Collectors.toList());
 
     }
@@ -91,13 +92,15 @@ public class DataStorageImpl implements DataStorage {
 
     @Override
     public List<Person> findAndSort(Comparator<Person> comparator) {
-        return personList.stream().peek(System.out::println).sorted(comparator).peek(System.out::println).collect(Collectors.toList());
+        return personList.stream().sorted(comparator).collect(Collectors.toList());
 
     }
 
     @Override
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
 
-        return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
+       return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
+
+
     }
 }

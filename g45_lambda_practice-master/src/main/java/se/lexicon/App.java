@@ -5,8 +5,7 @@ import java.util.Scanner;
 import static se.lexicon.Exercises.*;
 
 
-public class App 
-{
+public class App {
 
     private static final Scanner SCANNER;
 
@@ -14,15 +13,14 @@ public class App
         SCANNER = new Scanner(System.in);
     }
 
-    public static void main( String[] args )
-    {
+    public static void main(String[] args) {
         boolean done = false;
         String message = "Running exercise...";
-        do{
-            System.out.println(menu());
+        do {
+            //  System.out.println(menu());
             System.out.print("Choose from 1-13: ");
             int number = getInt();
-            switch (number){
+            switch (number) {
                 case 0:
                     done = true;
                     break;
@@ -68,13 +66,12 @@ public class App
             }
 
 
-        }while(!done);
+        } while (!done);
         SCANNER.close();
     }
 
 
-
-    public static String menu(){
+    public static String menu() {
         StringBuilder stringBuilder = new StringBuilder("Please make a choice: \n");
         stringBuilder.append("0.\tQuit\n");
         stringBuilder.append("1.\tFind everyone that has firstName: “Erik” using findMany().\n");
@@ -95,17 +92,17 @@ public class App
         return stringBuilder.toString();
     }
 
-    public static int getInt(){
+    public static int getInt() {
         int number = 0;
         boolean validNumber = false;
-        while(!validNumber){
-            try{
+        while (!validNumber) {
+            try {
                 number = Integer.parseInt(SCANNER.nextLine().trim());
                 validNumber = number >= 0 && number < 14;
-            }catch (NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 System.out.println("Not a integer");
             }
-            if(!validNumber){
+            if (!validNumber) {
                 System.out.println("Try again");
             }
         }
