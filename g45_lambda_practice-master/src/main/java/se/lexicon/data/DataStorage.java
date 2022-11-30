@@ -12,9 +12,10 @@ import java.util.function.Predicate;
 
 public interface DataStorage {
 
-   public DataStorage INSTANCE = DataStorageImpl.getInstance();
+    public DataStorage INSTANCE = DataStorageImpl.getInstance();
 
     List<Person> findMany(Predicate<Person> filter);
+
     Person findOne(Predicate<Person> filter);
 
 

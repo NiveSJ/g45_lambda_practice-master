@@ -72,7 +72,7 @@ public class Exercises {
 
 
         System.out.println(storage.findOneAndMapToString((person -> person.getId() == 456),
-                (person -> person.getFirstName().concat(" ")
+                (person -> "Name"+ person.getFirstName().concat(" ")
                         .concat(person.getLastName()).concat(" ")
                         .concat("born").concat(" ")
                         .concat(person.getBirthDate().toString()))));
@@ -171,7 +171,8 @@ public class Exercises {
      */
     public static void exercise12(String message) {
         System.out.println(message);
-        System.out.println(storage.findAndSort((person -> person.getBirthDate().isBefore(LocalDate.parse("1950-01-01"))),
+        System.out.println(storage.findAndSort((person -> person.getBirthDate().
+                        isBefore(LocalDate.parse("1950-01-01"))),
                 Comparator.comparing(Person::getBirthDate, Comparator.reverseOrder())));
 
         System.out.println("----------------------");
@@ -183,9 +184,9 @@ public class Exercises {
     public static void exercise13(String message) {
         System.out.println(message);
 
-        System.out.println(storage.findAndSort(Comparator.comparing(Person::getBirthDate).
-                thenComparing(Person::getLastName).
-                thenComparing(Person::getFirstName)));
+        System.out.println(storage.findAndSort(Comparator.comparing(Person::getLastName).
+                thenComparing(Person::getFirstName).
+                thenComparing(Person::getBirthDate)));
 
 
         System.out.println("----------------------");

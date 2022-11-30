@@ -5,6 +5,7 @@ import se.lexicon.data.DataStorage;
 import se.lexicon.model.Person;
 import se.lexicon.util.PersonGenerator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -51,20 +52,28 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public Person findOne(Predicate<Person> filter) {
 
-        Optional<Person> foundPerson = personList.stream().filter(filter).findFirst();
+        // Optional<Person> foundPerson = personList.stream().filter(filter).findFirst();
+        for (Person person : personList)
 
-        return foundPerson.orElse(null);
-        
+            if (filter.test(person))
+
+                return person;
+
+
+        return null;
+
+        //  return foundPerson.orElse(null);
+
     }
 
     @Override
     public String findOneAndMapToString(Predicate<Person> filter, Function<Person, String> personToString) {
+        Person person = findOne(filter);
+        return personToString.apply(person);
 
-      /*  for (Person person : personList)
-            if (filter.test(person)) return personToString.apply(person); */
 
-        Optional<String> found = personList.stream().filter(filter).findFirst().map(personToString);
-        return found.orElse("Not found");
+        // Optional<String> found = personList.stream().filter(filter).findFirst().map(personToString);
+        // return found.orElse("Not found");
 
 
     }
@@ -72,33 +81,59 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public List<String> findManyAndMapEachToString(Predicate<Person> filter,
                                                    Function<Person, String> personToString) {
+        List<String> toString = new ArrayList<>();
+        List<Person> filteredList = findMany(filter);
+        for (Person person : filteredList) {
+
+            toString.add(personToString.apply(person));
+        }
+        return toString;
 
 
-        return personList.stream().filter(filter).map(personToString).collect(Collectors.toList());
+        //With streams
+        // return personList.stream().filter(filter).map(personToString).collect(Collectors.toList());
 
     }
 
     @Override
     public void findAndDo(Predicate<Person> filter, Consumer<Person> consumer) {
-      /*  for (Person person : personList)
-            if (filter.test(person)) consumer.accept(person); */
+        for (Person person : personList)
+            if (filter.test(person))
+                consumer.accept(person);
 
-
-        personList.stream().filter(filter).forEach(consumer);
+        //With streams
+        //  personList.stream().filter(filter).forEach(consumer);
 
     }
 
 
     @Override
     public List<Person> findAndSort(Comparator<Person> comparator) {
-        return personList.stream().sorted(comparator).collect(Collectors.toList());
+
+
+        personList.sort(comparator);
+        return personList;
+
+
+        //With streams
+        //return personList.stream().sorted(comparator).collect(Collectors.toList());
 
     }
 
     @Override
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
+        List<Person> filteredList = new ArrayList<>();
 
-        return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
+        for (Person person : personList)
+            if (filter.test(person))
+                filteredList.add(person);
+
+        filteredList.sort(comparator);
+        return filteredList;
+
+
+        //With streams
+        //return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
 
 
     }
