@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
+import static java.lang.String.valueOf;
+
 public class Exercises {
 
     private final static DataStorage storage = DataStorage.INSTANCE;
@@ -158,7 +160,7 @@ public class Exercises {
     public static void exercise11(String message) {
         System.out.println(message);
 
-        System.out.println( storage.findAndSort(person -> person.getFirstName().startsWith("A"), Comparator.comparing(Person::getBirthDate)));
+        System.out.println(storage.findAndSort(person -> person.getFirstName().startsWith("A"), Comparator.comparing(Person::getBirthDate)));
 
         System.out.println("----------------------");
     }
@@ -168,8 +170,8 @@ public class Exercises {
      */
     public static void exercise12(String message) {
         System.out.println(message);
-        System.out.println( storage.findAndSort((person -> person.getBirthDate().isBefore(LocalDate.parse("1950-01-01")) ),
-                Comparator.comparing(Person::getBirthDate,Comparator.reverseOrder())     ));
+        System.out.println(storage.findAndSort((person -> person.getBirthDate().isBefore(LocalDate.parse("1950-01-01"))),
+                Comparator.comparing(Person::getBirthDate, Comparator.reverseOrder())));
 
         System.out.println("----------------------");
     }
@@ -179,9 +181,13 @@ public class Exercises {
      */
     public static void exercise13(String message) {
         System.out.println(message);
-        //Write your code here
-        // TODO: exercise13
+        storage.findAndSort((person ->
+                {
+                    boolean b = (person.getLastName().compareToIgnoreCase(person.getLastName())) valueOf(person.getBirthDate()));
 
+                    return b;
+                },
+                Comparator.comparing(Person::getLastName));
         System.out.println("----------------------");
     }
 }
