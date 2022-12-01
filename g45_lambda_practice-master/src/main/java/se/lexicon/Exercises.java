@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static java.lang.String.copyValueOf;
@@ -72,7 +73,7 @@ public class Exercises {
 
 
         System.out.println(storage.findOneAndMapToString((person -> person.getId() == 456),
-                (person -> "Name"+ person.getFirstName().concat(" ")
+                (person -> "Name" + person.getFirstName().concat(" ")
                         .concat(person.getLastName()).concat(" ")
                         .concat("born").concat(" ")
                         .concat(person.getBirthDate().toString()))));
@@ -106,9 +107,13 @@ public class Exercises {
             return Period.between(person.getBirthDate(), LocalDate.now()).getYears() < 10;
         };
 
-        System.out.println(storage.findManyAndMapEachToString(agecalc, person -> person.getFirstName().concat(" ").
-                concat(person.getLastName()).concat(" ").concat(Integer.toString(Period.between(person.getBirthDate(),
-                        LocalDate.now()).getYears())).concat(" ").concat("years").concat("\n")));
+        Function<Person, String> newFun = person -> person.getFirstName().concat(" ").
+                concat(person.getLastName()).concat(" ").
+                concat(Integer.toString(Period.between(person.getBirthDate(),
+                        LocalDate.now()).getYears())).concat(" ").
+                concat("years").concat("\n");
+
+        System.out.println(storage.findManyAndMapEachToString(agecalc, newFun));
 
 
         System.out.println("----------------------");
@@ -173,7 +178,7 @@ public class Exercises {
         System.out.println(message);
         System.out.println(storage.findAndSort((person -> person.getBirthDate().
                         isBefore(LocalDate.parse("1950-01-01"))),
-                Comparator.comparing(Person::getBirthDate, Comparator.reverseOrder())));
+                Comparator.comparing(Person::getBirthDate).reversed()));
 
         System.out.println("----------------------");
     }
